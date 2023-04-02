@@ -1,0 +1,20 @@
+{
+  "name": "starki",
+  "version": "1.0.0",
+  "description": "java script application",
+  "dependencies": {},
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "serve": "parcel src/index.html -p 4000 --open",
+    "build": "parcel build src/index.html --no-source-maps"
+  },
+  "keywords": [
+    "js",
+    "javascript"
+  ],
+  "author": "Vadim Baibuz <attorney2005@yandex.ru>",
+  "license": "ISC"
+}
