@@ -612,6 +612,7 @@ const model = [
             "PHASELLUS PLACERAT",
             "CRAS ET NISI VITTAE ODIO"
         ],
+        image: 'src="images/logo.png" width="230" height="180" alt="Место нахождения',
         options: {
             styles: {
                 background: "",
@@ -621,6 +622,11 @@ const model = [
             tag: "h2",
             image: "image"
         }
+    },
+    {
+        type: "section",
+        value: "Вот моя деревня,вот мой дом родной",
+        cite: "Вадим Байбуз"
     }
 ];
 
@@ -686,31 +692,44 @@ function navigation(block) {
     `;
 }
 function sidebar(block) {
-    // return `
-    //       <aside>
-    //           <nav>
-    //               <ul class="aside-menu">
-    //                   <li class="active">${block.value}</li>
-    //                   <li><a href="/donec/">${block.value}</a></li>
-    //                   <li><a href="/vestibulum/">${block.value}</a></li>
-    //                   <li><a href="/etiam/">${block.value}</a></li>
-    //                   <li><a href="/phasellus/">${block.value}</a></li>
-    //                   <li><a href="/cras/">${block.value}</a></li>
-    //               </ul>
-    //           </nav>
-    //               <h2>МЕСТО НАХОЖДЕНИЯ</h2>
-    //               <p>
-    //                   <img src="images/logo.png" width="230" height="180" alt="Место нахождения">
-    //               </p>
-    //
-    //       </aside>
-    //   `
-    return (0, _utils.ul)((0, _utils.li)(`<a href="/phasellus/">${block.value}</a>`));
+    return `
+        <aside>
+            <nav>
+                <ul class="aside-menu">
+                    <li class="aside-menu-list active">${block.value}</li>
+                    <li class="aside-menu-list"><a href="/donec/">${block.value}</a></li>
+                    <li class="aside-menu-list"><a href="/vestibulum/">${block.value}</a></li>
+                    <li class="aside-menu-list"><a href="/etiam/">${block.value}</a></li>
+                    <li class="aside-menu-list"><a href="/phasellus/">${block.value}</a></li>
+                    <li class="aside-menu-list"><a href="/cras/">${block.value}</a></li>
+                </ul>
+            </nav>
+                <h2>МЕСТО НАХОЖДЕНИЯ</h2>
+                <p>
+                    <${block.image}>
+                </p>
+
+        </aside>
+    `;
+// return ul(li(`<a>${block.value}</a>`),
+}
+function section(block) {
+    return ` 
+ <section>
+    <blockquote>
+      <p>
+        ${block.value}
+      </p>
+      <cite>${block.cite} </cite>
+    </blockquote>
+  </section>
+  `;
 }
 const template = {
     header,
     navigation,
-    sidebar
+    sidebar,
+    section
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./utils":"en4he"}],"en4he":[function(require,module,exports) {
@@ -720,12 +739,12 @@ parcelHelpers.export(exports, "ul", ()=>ul);
 parcelHelpers.export(exports, "li", ()=>li);
 function ul(content) {
     return `
-  <ul>${content}</ul>
+  <ul class="aside-menu">${content}</ul>
   `;
 }
 function li(content) {
     return `
-  <li>${content}</li>
+  <li class="aside-menu-list">${content}</li>
   `;
 }
 
