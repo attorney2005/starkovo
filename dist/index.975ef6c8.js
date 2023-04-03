@@ -709,31 +709,19 @@ function header(block) {
   `;
 }
 function navigation(block) {
+    const html = block.value.map((item)=>`<li>${item}</li>`);
     return `
         <nav>
-            <ul class="top-menu">
-                <li><a href="/home/">HOME</a></li>
-                <li class="active">ABOUT US</li>
-                <li><a href="/services/">SERVICES</a></li>
-                <li><a href="/partners/">PARTNERS</a></li>
-                <li><a href="/customers/">CUSTOMERS</a></li>
-                <li><a href="/projects/">PROJECTS</a></li>
-                <li><a href="/careers/">CAREERS</a></li>
-                <li><a href="/contact/">CONTACT</a></li>
-            </ul>
+            <ul class="top-menu">${html.join("")}</ul>
         </nav>
-    `;
+ `;
 }
 function sidebar(block) {
-    let html = "";
-    block.value.forEach((item)=>{
-        html += ` <li>${item}</li>`;
-        console.log(item);
-    });
+    const html = block.value.map((item)=>`<li>${item}</li>`);
     return `
         <aside>
             <nav>
-                <ul class="aside-menu">${html}</ul>
+                <ul class="aside-menu">${html.join("")}</ul>
             </nav>
                 <h2>МЕСТО НАХОЖДЕНИЯ</h2>
                 <p>
