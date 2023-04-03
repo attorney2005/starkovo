@@ -570,6 +570,8 @@ const $wrapper = document.querySelector(".wrapper");
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "model", ()=>model);
+var _logoPng = require("./images/logo.png");
+var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
 const model = [
     {
         type: "header",
@@ -612,25 +614,19 @@ const model = [
             "PHASELLUS PLACERAT",
             "CRAS ET NISI VITTAE ODIO"
         ],
-        image: 'src="images/logo.png" width="230" height="180" alt="Место нахождения',
-        options: {
-            styles: {
-                background: "",
-                padding: "",
-                color: ""
-            },
-            tag: "h2",
-            image: "image"
-        }
+        image: "image",
+        width: "230",
+        height: "180",
+        alt: "Место нахождения'"
     },
     {
         type: "section",
-        value: "Вот моя деревня,вот мой дом родной",
-        cite: "Вадим Байбуз"
+        value: "Вот моя деревня, вот мой дом родной..",
+        cite: "Иван Суриков"
     }
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/logo.png":"g4jYL"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -659,6 +655,43 @@ exports.export = function(dest, destName, get) {
         get: get
     });
 };
+
+},{}],"g4jYL":[function(require,module,exports) {
+module.exports = require("fbb1fa34a304b2a6").getBundleURL("bLxZJ") + "logo.c493797d.png" + "?" + Date.now();
+
+},{"fbb1fa34a304b2a6":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
 
 },{}],"gOO7a":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -692,17 +725,15 @@ function navigation(block) {
     `;
 }
 function sidebar(block) {
+    let html = "";
+    block.value.forEach((item)=>{
+        html += ` <li>${item}</li>`;
+        console.log(item);
+    });
     return `
         <aside>
             <nav>
-                <ul class="aside-menu">
-                    <li class="aside-menu-list active">${block.value}</li>
-                    <li class="aside-menu-list"><a href="/donec/">${block.value}</a></li>
-                    <li class="aside-menu-list"><a href="/vestibulum/">${block.value}</a></li>
-                    <li class="aside-menu-list"><a href="/etiam/">${block.value}</a></li>
-                    <li class="aside-menu-list"><a href="/phasellus/">${block.value}</a></li>
-                    <li class="aside-menu-list"><a href="/cras/">${block.value}</a></li>
-                </ul>
+                <ul class="aside-menu">${html}</ul>
             </nav>
                 <h2>МЕСТО НАХОЖДЕНИЯ</h2>
                 <p>
