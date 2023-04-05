@@ -570,63 +570,54 @@ const $wrapper = document.querySelector(".wrapper");
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "model", ()=>model);
-var _logoPng = require("./images/logo.png");
+var _logoPng = require("../src/images/logo.png");
 var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
+var _blocksJs = require("./classes/blocks.js");
 const model = [
-    {
-        type: "header",
-        value: "",
-        options: {
-            styles: {
-                background: "white",
-                color: "blue",
-                padding: "2px"
-            }
+    new (0, _blocksJs.Block)("header", "", "image", {
+        styles: {
+            background: "white",
+            color: "blue",
+            padding: "2px"
         }
-    },
-    {
-        type: "navigation",
-        value: [
-            "HOME",
-            "ABOUT US",
-            "SERVICES",
-            "PARTNERS",
-            "CUSTOMERS",
-            "PROJECTS",
-            "CAREERS",
-            "CONTACT"
-        ],
-        options: {
-            styles: {
-                background: "",
-                padding: "",
-                color: ""
-            }
+    }),
+    new (0, _blocksJs.Block)("navigation", [
+        "HOME",
+        "ABOUT US",
+        "SERVICES",
+        "PARTNERS",
+        "CUSTOMERS",
+        "PROJECTS",
+        "CAREERS",
+        "CONTACT"
+    ], {
+        styles: {
+            background: "",
+            padding: "",
+            color: ""
         }
-    },
-    {
-        type: "sidebar",
-        value: [
-            "LOREM IPSUM",
-            "DONEC TINCIDUNT LAOREET",
-            "VESTIBULUM ELIT",
-            "ETIAM PHARETRA",
-            "PHASELLUS PLACERAT",
-            "CRAS ET NISI VITTAE ODIO"
-        ],
-        image: "image",
-        width: "230",
-        height: "180",
-        alt: "Место нахождения'"
-    },
-    {
-        type: "section",
-        value: "Вот моя деревня, вот мой дом родной..",
-        cite: "Иван Суриков"
-    }
+    }),
+    new (0, _blocksJs.Block)("sidebar", [
+        "LOREM IPSUM",
+        "DONEC TINCIDUNT LAOREET",
+        "VESTIBULUM ELIT",
+        "ETIAM PHARETRA",
+        "PHASELLUS PLACERAT",
+        "CRAS ET NISI VITTAE ODIO"
+    ], "image", {
+        tag: "h2",
+        styles: {
+            background: "#29c5eb",
+            font: "14px Oswald, san-serif",
+            color: "#fff",
+            padding: "10px",
+            margin: "30px 0 0 0"
+        }
+    }),
+    new (0, _blocksJs.Block)("section", "Вот моя деревня, вот мой дом родной..", "", "", "Иван Суриков")
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/logo.png":"g4jYL"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../src/images/logo.png":"g4jYL","./classes/blocks.js":"gMfMj"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -693,7 +684,21 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"gOO7a":[function(require,module,exports) {
+},{}],"gMfMj":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Block", ()=>Block);
+class Block {
+    constructor(type, value, image, options, cite){
+        this.type = type;
+        this.value = value;
+        this.image = image;
+        this.options = options;
+        this.cite = cite;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gOO7a":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "template", ()=>template);
@@ -701,7 +706,7 @@ var _utils = require("./utils");
 function header(block) {
     return `
         <header>
-            <a href="/"><img src="/images/logo.png" alt="солнышко"></a>
+            <a>${block.image}</a>
             <form name="search" action="#" method="get">
             <input type="text" name="q" placeholder="Search">
             <button type="submit">GO</button>
@@ -718,28 +723,30 @@ function navigation(block) {
 }
 function sidebar(block) {
     const html = block.value.map((item)=>`<li>${item}</li>`);
+    // const tag = block.options.tag ?? 'h2'
+    // const styles = block.options.styles
+    const { tag ="h2" , styles  } = block.options;
     return `
         <aside>
             <nav>
                 <ul class="aside-menu">${html.join("")}</ul>
             </nav>
-                <h2>МЕСТО НАХОЖДЕНИЯ</h2>
+                <${tag} style="${styles}">МЕСТО НАХОЖДЕНИЯ</${tag}>
                 <p>
                     <${block.image}>
                 </p>
 
         </aside>
-    `;
-// return ul(li(`<a>${block.value}</a>`),
+        `;
 }
 function section(block) {
-    return ` 
- <section>
+    return `
+      <section>
     <blockquote>
       <p>
         ${block.value}
       </p>
-      <cite>${block.cite} </cite>
+      <cite>${block.cite}</cite>
     </blockquote>
   </section>
   `;
@@ -756,6 +763,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ul", ()=>ul);
 parcelHelpers.export(exports, "li", ()=>li);
+parcelHelpers.export(exports, "css", ()=>css);
 function ul(content) {
     return `
   <ul class="aside-menu">${content}</ul>
@@ -765,6 +773,15 @@ function li(content) {
     return `
   <li class="aside-menu-list">${content}</li>
   `;
+}
+function css(styles = {}) {
+    // const keys = Object.keys(styles)
+    // const array = keys.map(key => {
+    //   return `${key} : ${styles[key]}`
+    // })
+    // return array.join(';')
+    const toString = (key)=>`${key} : ${styles[key]}`;
+    return Object.keys(styles).map(toString).join(";");
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lW6qc":[function() {},{}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequirec665")
