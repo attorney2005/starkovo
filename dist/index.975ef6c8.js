@@ -574,21 +574,20 @@ var _logoPng = require("../src/images/logo.png");
 var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
 var _blocksJs = require("./classes/blocks.js");
 const model = [
-    new (0, _blocksJs.Block)("header", "", "image", {
+    new (0, _blocksJs.HeaderBlock)("", "image", {
         styles: {
             background: "white",
             color: "blue",
             padding: "2px"
         }
     }),
-    new (0, _blocksJs.Block)("navigation", [
+    new (0, _blocksJs.NavigationBlock)([
         "HOME",
         "ABOUT US",
         "SERVICES",
         "PARTNERS",
         "CUSTOMERS",
         "PROJECTS",
-        "CAREERS",
         "CONTACT"
     ], {
         styles: {
@@ -597,7 +596,7 @@ const model = [
             color: ""
         }
     }),
-    new (0, _blocksJs.Block)("sidebar", [
+    new (0, _blocksJs.SidebarBlock)([
         "LOREM IPSUM",
         "DONEC TINCIDUNT LAOREET",
         "VESTIBULUM ELIT",
@@ -614,7 +613,7 @@ const model = [
             margin: "30px 0 0 0"
         }
     }),
-    new (0, _blocksJs.Block)("section", "Вот моя деревня, вот мой дом родной..", "", "", "Иван Суриков")
+    new (0, _blocksJs.SectionBlock)("Вот моя деревня, вот мой дом родной..", "", "", "Иван Суриков")
 ];
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../src/images/logo.png":"g4jYL","./classes/blocks.js":"gMfMj"}],"gkKU3":[function(require,module,exports) {
@@ -687,7 +686,10 @@ exports.getOrigin = getOrigin;
 },{}],"gMfMj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Block", ()=>Block);
+parcelHelpers.export(exports, "HeaderBlock", ()=>HeaderBlock);
+parcelHelpers.export(exports, "NavigationBlock", ()=>NavigationBlock);
+parcelHelpers.export(exports, "SidebarBlock", ()=>SidebarBlock);
+parcelHelpers.export(exports, "SectionBlock", ()=>SectionBlock);
 class Block {
     constructor(type, value, image, options, cite){
         this.type = type;
@@ -695,6 +697,65 @@ class Block {
         this.image = image;
         this.options = options;
         this.cite = cite;
+    }
+    toHTML() {
+        throw new Error(" Метод toHTML должен быть реализован");
+    }
+}
+class HeaderBlock extends Block {
+    constructor(value, options){
+        super("header", value, options);
+    }
+    toHTML() {
+        return `
+        <header>
+            <a>${this.image}</a>
+            <form name="search" action="#" method="get">
+            <input type="text" name="q" placeholder="Search">
+            <button type="submit">GO</button>
+        </header>
+  `;
+    }
+}
+class NavigationBlock extends Block {
+    constructor(value, options){
+        super("navigation", value, options);
+    }
+    toHTML() {
+        const html = this.value.map((item)=>`<li>${item}</li>`);
+        return `
+        <nav>
+            <ul class="top-menu">${html.join("")}</ul>
+        </nav>
+ `;
+    }
+}
+class SidebarBlock extends Block {
+    constructor(value, options, image){
+        super("sidebar", value, image, options);
+    }
+    toHTML() {
+        const html = this.value.map((item)=>`<li>${item}</li>`);
+        const tag = this.options.tag ?? "h2";
+        const styles = this.options.styles;
+        // const {tag = 'h2', styles} = block.options
+        return `
+        <aside>
+            <nav>
+                <ul class="aside-menu">${html.join("")}</ul>
+            </nav>
+                <${tag} style="${styles}">МЕСТО НАХОЖДЕНИЯ</${tag}>
+                <p>
+                    <${this.image}>
+                </p>
+
+        </aside>
+        `;
+    }
+}
+class SectionBlock extends Block {
+    constructor(value, options, image, cite){
+        super("section", value, options, image, cite);
     }
 }
 
@@ -723,9 +784,9 @@ function navigation(block) {
 }
 function sidebar(block) {
     const html = block.value.map((item)=>`<li>${item}</li>`);
-    // const tag = block.options.tag ?? 'h2'
-    // const styles = block.options.styles
-    const { tag ="h2" , styles  } = block.options;
+    const tag = block.options.tag ?? "h2";
+    const styles = block.options.styles;
+    // const {tag = 'h2', styles} = block.options
     return `
         <aside>
             <nav>
